@@ -1,0 +1,58 @@
+<app-header></app-header>
+
+<div class="hotels-container">
+    <h1 class="title">Hoteles de Europa</h1>
+
+    <div class="hotels-grid">
+
+        <div class="hotel-card">
+            <img [src]="hotel1.image" class="hotel-image" />
+            <div class="hotel-info">
+                <h2>{{ hotel1.name }}</h2>
+                <p class="location">{{ hotel1.location }}</p>
+                <p class="price">Desde {{ hotel1.price }} / noche</p>
+                <a routerLink="/contacto">
+                    <button class="book-btn">Reservar</button>
+                </a>
+            </div>
+        </div>
+
+        <div class="hotel-card">
+            <img [src]="hotel2.image" class="hotel-image" />
+            <div class="hotel-info">
+                <h2>{{ hotel2.name }}</h2>
+                <p class="location">{{ hotel2.location }}</p>
+                <p class="price">Desde {{ hotel2.price }} / noche</p>
+                <a routerLink="/contacto">
+                    <button class="book-btn">Reservar</button>
+                </a>
+            </div>
+        </div>
+
+        <div class="hotel-card">
+            <img [src]="hotel3.image" class="hotel-image" />
+            <div class="hotel-info">
+                <h2>{{ hotel3.name }}</h2>
+                <p class="location">{{ hotel3.location }}</p>
+                <p class="price">Desde {{ hotel3.price }} / noche</p>
+                <a routerLink="/contacto">
+                    <button class="book-btn">Reservar</button>
+                </a>
+            </div>
+        </div>
+
+        <div class="hotel-card">
+            <img [src]="hotel4.image" class="hotel-image" />
+            <div class="hotel-info">
+                <h2>{{ hotel4.name }}</h2>
+                <p class="location">{{ hotel4.location }}</p>
+                <p class="price">Desde {{ hotel4.price }} / noche</p>
+                <a routerLink="/contacto">
+                    <button class="book-btn">Reservar</button>
+                </a>
+            </div>
+        </div>
+
+
+    </div>
+</div>

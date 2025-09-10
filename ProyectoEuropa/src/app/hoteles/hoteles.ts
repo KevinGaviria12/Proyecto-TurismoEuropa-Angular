@@ -11,30 +11,70 @@ import { RouterModule } from '@angular/router';
 })
 export class Hoteles {
   hotel1 = {
-    name: 'Hotel Catalán',
+    name: 'Hotel Mandarin Oriental, Barcelona',
     location: 'Barcelona, España',
-    price: '€140 EUR',
-    image: 'assets/hotel_catalan.jpg'
+    price: '€800 EUR',
+    image: 'assets/HotelMandarin.webp' 
   };
 
   hotel2 = {
-    name: 'The London Suites',
+    name: 'The London Suites Hotel',
     location: 'Londres, Reino Unido',
-    price: '£130 GBP',
-    image: 'assets/hotel_london_suites.jpg'
+    price: '£600 GBP',
+    image: 'assets/HotelLondon.jpg'
   };
 
   hotel3 = {
-    name: 'Paris Central Hotel',
+    name: 'Hotel Lutetia',
     location: 'París, Francia',
-    price: '€160 EUR',
-    image: 'assets/hotel_paris_central.jpg'
+    price: '€1000 EUR',
+    image: 'assets/lutetia-paris.jpg'
   };
 
   hotel4 = {
-    name: 'Venice Grand Hotel',
+    name: 'Hotel Danieli, Venice',
     location: 'Venecia, Italia',
-    price: '€180 EUR',
-    image: 'assets/hotel_venice_grand.jpg'
+    price: '€800 EUR',
+    image: 'assets/HotelDanieli.jpg'
   };
+
+  hotel5 = {
+    name: ' Hilton Ámsterdam',
+    location: 'Ámsterdam, Países Bajos',
+    price: '€1000 EUR',
+    image: 'assets/Hiltonamsterdam.jpg'
+  };
+
+  hotel6 = {
+    name: 'AJWA Sultanahmet',
+    location: 'Estambul, Turquía',
+    price: '€900 EUR',
+    image: 'assets/HotelEstambul.jpg'
+  };
+
+  hotel7 = {
+    name: 'Hotel Grande Bretagne',
+    location: 'Grecia, Atenas',
+    price: '€3100 EUR',
+    image: 'assets/HotelGrecia1.jpg'
+  };
+
+   hotel8 = {
+    name: 'Mount Nelson, A Belmond Hotel',
+    location: 'Ciudad del Cabo, Sudáfrica',
+    price: '€2100 EUR',
+    image: 'assets/belmon.jpg'
+  };
+
+   hotel9 = {
+    name: 'Hotel Amalia',
+    location: 'Vaticano, Roma',
+    price: '€2500 EUR',
+    image: 'assets/amalia-hotel.jpg'
+  };
+
+
+
+
+
 }

@@ -9,7 +9,7 @@ import { RouterModule } from '@angular/router';
   templateUrl: './hoteles.html',
   styleUrls: ['./hoteles.css']
 })
-export class Hoteles {
+export class Hoteles { //Componente de Hoteles Señales
   hotel1 = {
     name: 'Hotel Mandarin Oriental, Barcelona',
     location: 'Barcelona, España',

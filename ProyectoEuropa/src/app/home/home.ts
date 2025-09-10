@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { Header } from '../shared/components/header/header';
 import { RouterModule } from '@angular/router';
 
@@ -9,4 +9,7 @@ import { RouterModule } from '@angular/router';
   templateUrl: './home.html',
   styleUrls: ['./home.css']
 })
-export class Home {}
+export class Home {
+  //  Señal con un mensaje dinámico
+  protected readonly mensaje = signal('Bienvenido a Proyecto Europa');
+}

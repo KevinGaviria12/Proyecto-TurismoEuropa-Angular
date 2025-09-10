@@ -1,38 +1,48 @@
-<!-- Si ya tienes <app-header> en app.component.html, elimina este <app-header> para no duplicarlo -->
+<!-- Header (ya incluido en app.component si quieres evitar duplicación) -->
 <app-header></app-header>
 
 <div class="login-wrapper">
   <div class="login-card">
-    <h2 *ngIf="mode === 'login'">Iniciar Sesión</h2>
-    <h2 *ngIf="mode === 'register'">Crear Cuenta</h2>
+
+    <h2 *ngIf="mode() === 'login'">Iniciar Sesión</h2>
+    <h2 *ngIf="mode() === 'register'">Crear Cuenta</h2>
 
     <!-- LOGIN -->
-    <form *ngIf="mode === 'login'" (ngSubmit)="login()" novalidate>
+    <form *ngIf="mode() === 'login'" (ngSubmit)="login()" novalidate>
       <label for="username">Usuario</label>
-      <input id="username" name="username" [(ngModel)]="username" required placeholder="ej: miusuario">
+      <!-- con signals usamos [value] y (input) -->
+      <input id="username" name="username" [value]="username()" (input)="username.set($any($event.target).value)"
+        required placeholder="ej: miusuario">
 
       <label for="password">Contraseña</label>
-      <input id="password" name="password" type="password" [(ngModel)]="password" required placeholder="tu contraseña">
+      <input id="password" name="password" type="password" [value]="password()"
+        (input)="password.set($any($event.target).value)" required placeholder="tu contraseña">
 
       <button type="submit" class="btn">Entrar</button>
     </form>
 
     <!-- REGISTER -->
-    <form *ngIf="mode === 'register'" (ngSubmit)="register()" novalidate>
+    <form *ngIf="mode() === 'register'" (ngSubmit)="register()" novalidate>
       <label for="regUser">Usuario</label>
-      <input id="regUser" name="regUser" [(ngModel)]="regUser" required placeholder="elige un usuario">
+      <input id="regUser" name="regUser" [value]="regUser()" (input)="regUser.set($any($event.target).value)" required
+        placeholder="elige un usuario">
 
       <label for="regPassword">Contraseña</label>
-      <input id="regPassword" name="regPassword" type="password" [(ngModel)]="regPassword" required placeholder="elige una contraseña">
+      <input id="regPassword" name="regPassword" type="password" [value]="regPassword()"
+        (input)="regPassword.set($any($event.target).value)" required placeholder="elige una contraseña">
 
       <button type="submit" class="btn">Registrarse</button>
     </form>
 
-    <p class="message" *ngIf="message">{{ message }}</p>
+    <!-- Mensajes dinámicos -->
+    <p class="message" *ngIf="message()">{{ message() }}</p>
 
+    <!-- Cambiar entre login y registro -->
     <div class="switch">
       <button type="button" (click)="toggleMode()" class="link">
-        {{ mode === 'login' ? '¿No tienes cuenta? Regístrate' : '¿Ya tienes cuenta? Inicia sesión' }}
+        {{ mode() === 'login'
+        ? '¿No tienes cuenta? Regístrate'
+        : '¿Ya tienes cuenta? Inicia sesión' }}
       </button>
     </div>
   </div>

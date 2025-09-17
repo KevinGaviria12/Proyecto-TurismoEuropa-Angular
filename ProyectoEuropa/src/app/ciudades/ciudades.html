@@ -1,117 +1,57 @@
 <app-header></app-header>
+
 <div class="activities-container">
-    <h1 class="title">Ciudades Recomendadas</h1>
-    <div class="activities-grid">
+  <h1 class="title">Ciudades Recomendadas</h1>
+  
+  <div class="activities-grid">
 
-        <div class="activity-card">
-            <!-- Ruta que SÍ FUNCIONA EN ANGULAR -->
-            <img src="assets/barcelona.jpg" alt="barcelona" class="activity-image" />
-            <div class="activity-info">
-                <h2>Explora la Vibrante Barcelona</h2>
-                <p class="location">Barcelona, España</p>
-                <p class="price">Desde $3000 USD</p>
-                <a routerLink="/contacto">
-                    <button class="book-btn" type="button">Reservar</button>
-                </a>
-            </div>
-        </div>
+    <!-- *ngFor: Repite la tarjeta por cada elemento en listaCiudades -->
+    <div 
+      class="activity-card"
+      *ngFor="let ciudad of listaCiudades"
+      [ngClass]="{
+        'destino-economico': ciudad.precio <= 6000, 
+        'destino-premium': ciudad.precio > 6000
+      }"
+      [ngStyle]="{
+        'border': ciudad.precio > 7000 ? '3px solid gold' : '1px solid #ccc'
+      }"
+    >
 
-        <div class="activity-card">
-            <img src="assets/londres.jpg" alt="Londres" class="activity-image" />
-            <div class="activity-info">
-                <h2>Descubre la Majestuosa Londres</h2>
-                <p class="location">Londres, Reino Unido</p>
-                <p class="price">Desde $6000 USD</p>
-                <a routerLink="/contacto">
-                    <button class="book-btn" type="button">Reservar</button>
-                </a>
-            </div>
-        </div>
+      <!-- *ngIf: muestra la insignia de oferta si el precio es menor a 5000 -->
+      <div *ngIf="ciudad.precio < 5000" class="oferta-badge">
+        🔥 Oferta Especial
+      </div>
 
-        <div class="activity-card">
-            <img src="assets/paris1.avif" alt="París" class="activity-image" />
-            <div class="activity-info">
-                <h2>Tour Romántico por París</h2>
-                <p class="location">París, Francia</p>
-                <p class="price">Desde $7000 USD</p>
-                <a routerLink="/contacto">
-                    <button class="book-btn" type="button">Reservar</button>
-                </a>
-            </div>
-        </div>
+      <!-- Imagen dinámica desde la propiedad 'imagen' de cada ciudad -->
+      <img [src]="ciudad.imagen" [alt]="ciudad.nombre" class="activity-image" />
 
-        <div class="activity-card">
-            <img src="assets/venecia.jpg" alt="Venecia" class="activity-image" />
-            <div class="activity-info">
-                <h2>Paseo en Góndola por Venecia</h2>
-                <p class="location">Venecia, Italia</p>
-                <p class="price">Desde $5000 USD</p>
-                <a routerLink="/contacto">
-                    <button class="book-btn" type="button">Reservar</button>
-                </a>
-            </div>
-        </div>
+      <div class="activity-info">
+        <h2>{{ ciudad.descripcion }}</h2>
+        <p class="location">{{ ciudad.ubicacion }}</p>
 
-        <div class="activity-card">
-            <img src="assets/amsterdam.jpg" alt="Bangkok" class="activity-image" />
-            <div class="activity-info">
-                <h2>Lo que paso en Ámsterdam se queda en Ámsterdam</h2>
-                <p class="location">Países Bajos Europa Occidental</p>
-                <p class="price">Desde $7500 USD</p>
-                <a routerLink="/contacto">
-                    <button class="book-btn" type="button">Reservar</button>
-                </a>
-            </div>
-        </div>
+        <!-- *ngSwitch: muestra un texto diferente según la categoría de precio -->
+        <p [ngSwitch]="getCategoriaPrecio(ciudad.precio)">
+          <span *ngSwitchCase="'bajo'" class="price">
+            Económico: ${{ ciudad.precio }} USD
+          </span>
+          <span *ngSwitchCase="'medio'" class="price">
+            Estándar: ${{ ciudad.precio }} USD
+          </span>
+          <span *ngSwitchCase="'alto'" class="price">
+            Premium: ${{ ciudad.precio }} USD
+          </span>
+          <span *ngSwitchDefault class="price">
+            Desde ${{ ciudad.precio }} USD
+          </span>
+        </p>
 
-        <div class="activity-card">
-            <img src="assets/Estambul.jpg" alt="Estambul" class="activity-image" />
-            <div class="activity-info">
-                <h2>Maravíllate con Estambul</h2>
-                <p class="location">Estambul, Turquía</p>
-                <p class="price">Desde $4500 USD</p>
-                <a routerLink="/contacto">
-                    <button class="book-btn" type="button">Reservar</button>
-                </a>
-            </div>
-        </div>
-
-        <div class="activity-card">
-            <img src="assets/grecia.jpg" alt="Grecia" class="activity-image" />
-            <div class="activity-info">
-                <h2>Donde podras encontrar la montaña más alta de Grecia</h2>
-                <p class="location">República Helénica sureste de Europa</p>
-                <p class="price">Desde $8000 USD</p>
-                <a routerLink="/contacto">
-                    <button class="book-btn" type="button">Reservar</button>
-                </a>
-            </div>
-        </div>
-
-        
-        <div class="activity-card">
-            <img src="assets/ciudadCabo.jpg" alt="Ciudad del Cabo" class="activity-image" />
-            <div class="activity-info">
-                <h2>Aventuras en Ciudad del Cabo</h2>
-                <p class="location">Ciudad del Cabo, Sudáfrica</p>
-                <p class="price">Desde $7000 USD</p>
-                <a routerLink="/contacto">
-                    <button class="book-btn" type="button">Reservar</button>
-                </a>
-            </div>
-        </div>
-
-         <div class="activity-card">
-            <img src="assets/baticano1.jpg" alt="Vaticano" class="activity-image" />
-            <div class="activity-info">
-                <h2>El Vaticano</h2>
-                <p class="location">Italia, al oeste de la ciudad de Roma</p>
-                <p class="price">Desde $4500 USD</p>
-                <a routerLink="/contacto">
-                    <button class="book-btn" type="button">Reservar</button>
-                </a>
-            </div>
-        </div>
-
+        <!-- Botón de reserva que redirige al componente de contacto -->
+        <a routerLink="/contacto">
+          <button class="book-btn" type="button">Reservar</button>
+        </a>
+      </div>
     </div>
+
+  </div>
 </div>

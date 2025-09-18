@@ -1,35 +1,45 @@
-<!-- Header (ya incluido en app.component si quieres evitar duplicación) -->
 <app-header></app-header>
 
-<div class="login-wrapper">
-  <div class="login-card">
+<div class="login-wrapper" 
+       [ngStyle]="{ 'background-color': mode() === 'login' ? '#e6f2ff' : '#e6ffe6' }">
+  <!--  ngStyle: cambiamos el color de fondo según el modo -->
 
+  <div class="login-card" 
+       [ngClass]="{ 'login-mode': mode() === 'login', 'register-mode': mode() === 'register' }">
+    <!--ngClass: aplica una clase distinta según el modo -->
+
+    <!-- Si mode es igual a login entonces renderiza si no lo elimina del dom lo mismo con register -->
     <h2 *ngIf="mode() === 'login'">Iniciar Sesión</h2>
     <h2 *ngIf="mode() === 'register'">Crear Cuenta</h2>
 
     <!-- LOGIN -->
     <form *ngIf="mode() === 'login'" (ngSubmit)="login()" novalidate>
+      <!-- IF → valida que estemos en modo login -->
       <label for="username">Usuario</label>
-      <!-- con signals usamos [value] y (input) -->
-      <input id="username" name="username" [value]="username()" (input)="username.set($any($event.target).value)"
+      <input id="username" name="username"
+        [value]="username()" (input)="username.set($any($event.target).value)"
         required placeholder="ej: miusuario">
-
+ 
       <label for="password">Contraseña</label>
-      <input id="password" name="password" type="password" [value]="password()"
-        (input)="password.set($any($event.target).value)" required placeholder="tu contraseña">
+      <input id="password" name="password" type="password"
+        [value]="password()" (input)="password.set($any($event.target).value)"
+        required placeholder="tu contraseña">
 
       <button type="submit" class="btn">Entrar</button>
     </form>
 
     <!-- REGISTER -->
     <form *ngIf="mode() === 'register'" (ngSubmit)="register()" novalidate>
+      <!-- IF → valida que estemos en modo registro -->
       <label for="regUser">Usuario</label>
-      <input id="regUser" name="regUser" [value]="regUser()" (input)="regUser.set($any($event.target).value)" required
-        placeholder="elige un usuario">
+      <input id="regUser" name="regUser"
+        [value]="regUser()" (input)="regUser.set($any($event.target).value)"
+        required placeholder="elige un usuario">
 
       <label for="regPassword">Contraseña</label>
-      <input id="regPassword" name="regPassword" type="password" [value]="regPassword()"
-        (input)="regPassword.set($any($event.target).value)" required placeholder="elige una contraseña">
+      <input id="regPassword" name="regPassword" type="password"
+        [value]="regPassword()" (input)="regPassword.set($any($event.target).value)"
+        required placeholder="elige una contraseña">
 
       <button type="submit" class="btn">Registrarse</button>
     </form>
@@ -41,9 +51,14 @@
     <div class="switch">
       <button type="button" (click)="toggleMode()" class="link">
         {{ mode() === 'login'
-        ? '¿No tienes cuenta? Regístrate'
-        : '¿Ya tienes cuenta? Inicia sesión' }}
+          ? '¿No tienes cuenta? Regístrate'
+          : '¿Ya tienes cuenta? Inicia sesión' }}
       </button>
     </div>
+
+    <!-- Bucle for: ejemplo de mostrar tips -->
+    <ul>
+      <li *ngFor="let tip of tips">{{ tip }}</li>
+    </ul>
   </div>
 </div>

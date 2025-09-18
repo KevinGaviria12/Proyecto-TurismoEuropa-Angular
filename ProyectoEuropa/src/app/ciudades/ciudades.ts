@@ -43,7 +43,7 @@ export class ciudades {
     },
     {
       nombre: 'París',
-      precio: 7000,
+      precio: 8000,
       imagen: 'https://res.cloudinary.com/dsdp1r1uh/image/upload/v1757952198/paris1_iunjtl.avif',
       ubicacion: 'París, Francia',
       descripcion: 'Tour Romántico por París'
@@ -93,7 +93,8 @@ export class ciudades {
   ];
 
   /**
-   * Clasifica el precio en 'bajo' | 'medio' | 'alto' solo puede devolver uno de estos tres valores
+   * Clasifica el precio en 'bajo' | 'medio' | 'alto' el metodo solo puede devolver uno de estos tres valores
+   * tipo de retorno restringido
    */
   getCategoriaPrecio(precio: number): 'bajo' | 'medio' | 'alto' {
     if (precio < 5000) return 'bajo';

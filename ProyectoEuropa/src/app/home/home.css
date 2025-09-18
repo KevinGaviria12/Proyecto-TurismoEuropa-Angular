@@ -15,7 +15,8 @@ html, body {
   text-align: center;
   background:
     linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6)),
-    url('/assets/baticano.jpeg') no-repeat center center fixed;
+    url('https://res.cloudinary.com/dsdp1r1uh/image/upload/v1757948165/baticano_v1m19u.jpg') 
+    no-repeat center center fixed;
   background-size: cover;            
   padding: 2rem;
   box-sizing: border-box;

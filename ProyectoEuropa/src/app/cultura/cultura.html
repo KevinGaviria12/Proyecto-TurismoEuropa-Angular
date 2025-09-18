@@ -1,77 +1,57 @@
 <app-header></app-header>
 
 <section class="page-destinations">
-    <div class="div-text-destinations">
-        <h2>Cultura Gastronomica</h2>
-        <p>Descubre algunas comidas tipicas de cada pais o ciudad</p>
+  <div class="div-text-destinations">
+    <h2>Cultura Gastronómica</h2>
+    <p>Descubre algunas comidas típicas de cada país o ciudad</p>
+  </div>
+
+  <div class="cards">
+    <!-- *ngFor: Recorre la lista de platos y genera una tarjeta por cada uno -->
+    <div 
+      class="card"
+      *ngFor="let plato of listaPlatos"
+      [ngClass]="{ 
+        'plato-economico': plato.precio < 5000, 
+        'plato-premium': plato.precio > 7000 
+      }"
+      [ngStyle]="{ 
+        'border': plato.precio > 7000 ? '3px solid gold' : '1px solid #ccc' 
+      }"
+    >
+      <!-- *ngIf: Muestra esta etiqueta solo si el plato cuesta menos de 5000 -->
+      <div *ngIf="plato.precio < 5000" class="oferta-badge">
+        🔥 Plato destacado
+      </div>
+
+      <!-- [src] y [alt]: Enlazan dinámicamente la imagen y el nombre -->
+      <img [src]="plato.imagen" [alt]="plato.nombre">
+
+      <div>
+        <h3>{{ plato.ciudad }}</h3>
+        <p>{{ plato.descripcion }}</p>
+
+        <!-- [ngSwitch]: Evalúa la categoría del precio -->
+        <p [ngSwitch]="getCategoriaPrecio(plato.precio)">
+          <!-- *ngSwitchCase: Renderiza según el valor devuelto por getCategoriaPrecio -->
+          <span *ngSwitchCase="'bajo'" class="price">
+            Económico: &#36;{{ plato.precio }} USD
+          </span>
+          <span *ngSwitchCase="'medio'" class="price">
+            Estándar: &#36;{{ plato.precio }} USD
+          </span>
+          <span *ngSwitchCase="'alto'" class="price">
+            Premium: &#36;{{ plato.precio }} USD
+          </span>
+
+          <!-- *ngSwitchDefault: Caso por defecto si no coincide con ningún case -->
+          <span *ngSwitchDefault class="price">
+            Desde &#36;{{ plato.precio }} USD
+          </span>
+        </p>
+      </div>
     </div>
-
-    <div class="cards">
-        <div class="card">
-            <img src="assets/cremacatalanapostre.jpg">
-            <div>
-                <h3>Barcelona, España</h3>
-                <p>La Crema Catalana, una crema española con sabor a cítricos y canela, y un toque de azúcar caramelizado</p>
-            </div>
-        </div>
-        <div class="card">
-            <img src="assets/FishAndChips.jpg">
-            <div>
-                <h3>Londres, Reino Unido</h3>
-                <p>Un rebozado crujiente y un pescado fresco, junto con patatas bien hechas</p>
-            </div>
-        </div>
-        <div class="card">
-            <img src="assets/Ratatouille.jpg">
-            <div>
-                <h3>París, Francia</h3>
-                <p>Guiso de verduras elaborado con calabacines, berenjenas, pimientos rojos y amarillo</p>
-            </div>
-        </div>
-
-         <div class="card">
-            <img src="assets/alcachofas.jpg">
-            <div>
-                <h3>Venecia, Italia</h3>
-                <p>Las alcachofas son una flor comestible deliciosa</p>
-            </div>
-        </div>
-
-
-         <div class="card">
-            <img src="assets/Stamppot.jpg">
-            <div>
-                <h3>Ámsterdam</h3>
-                <p>Puré de patatas con verduras frito</p>
-            </div>
-        </div>
-
-
-         <div class="card">
-            <img src="assets/döner kebab.jpg">
-            <div>
-                <h3>Estambul, Turquía</h3>
-                <p>Carne (cordero, ternera o pollo) asada en un pincho vertical y servida en pan de pita con verduras y salsas</p>
-            </div>
-        </div>
-
-         <div class="card">
-            <img src="assets/Mousakas1.jpg">
-            <div>
-                <h3>República Helénica sureste de Europa</h3>
-                <p>La versión griega, que es la más conocida internacionalmente, consiste de capas de carne picada de cordero, berenjena en rebanadas, y tomate, cubierto de una salsa bechamel y horneado.</p>
-            </div>
-        </div>
-
-
-        
-         <div class="card">
-            <img src="assets/pasta.jpg">
-            <div>
-                <h3>Italia, al oeste de la ciudad de Roma</h3>
-                <p>Acompaña la pasta con un suppli e trata de croquetas de arroz rellenas de queso mozzarella que al partirse muestran un hilo de queso fundido.</p>
-            </div>
-        </div>
-
-    </div>
+  </div>
 </section>
+
+

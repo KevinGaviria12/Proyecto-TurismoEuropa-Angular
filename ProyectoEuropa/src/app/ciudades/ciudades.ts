@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { Header } from '../shared/components/header/header';
-import { CommonModule } from '@angular/common'; // 👈 importa directivas Angular
+import { CommonModule } from '@angular/common'; 
 
 interface Ciudad {
   nombre: string;

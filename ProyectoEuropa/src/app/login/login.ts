@@ -6,61 +6,110 @@ import { RouterModule } from '@angular/router';
 import { Header } from '../shared/components/header/header';
 
 @Component({
-  selector: 'app-login',
-  standalone: true,
-  imports: [FormsModule, CommonModule, RouterModule, Header],
-  templateUrl: './login.html',
-  styleUrls: ['./login.css']
+  selector: 'app-login',                
+  standalone: true,                      
+  imports: [FormsModule, CommonModule, RouterModule, Header], 
+  templateUrl: './login.html',           
+  styleUrls: ['./login.css']             
 })
 export class Login {
 
-  // Señal que maneja si estamos en "login" o en "registro"
+  // Señal que maneja el modo actual: 'login' o 'register'
+  // La plantilla reaccionará automáticamente a cambios de esta señal
   protected readonly mode = signal<'login' | 'register'>('login');
 
-  // Señales reactivas para los campos del formulario
-  protected readonly username = signal('');      // usuario login
-  protected readonly password = signal('');      // contraseña login
-  protected readonly regUser = signal('');       // usuario registro
-  protected readonly regPassword = signal('');   // contraseña registro
+  // Señales reactivas para los campos del formulario de login
+  protected readonly username = signal('');      // Campo usuario login
+  protected readonly password = signal('');      // Campo contraseña login
 
-  // Señal para mostrar mensajes de error/éxito
+  // Señales reactivas para los campos del formulario de registro
+  protected readonly regUser = signal('');       // Campo usuario registro
+  protected readonly regPassword = signal('');   // Campo contraseña registro
+
+  // Señal para mostrar mensajes de error o éxito en la interfaz
   protected readonly message = signal('');
 
-  // Lista para el *ngFor (ejemplo de tips al usuario)
+  // Lista de tips que se muestran dinámicamente en la plantilla con @for
   protected readonly tips = [
     'Usa una contraseña segura',
     'No compartas tus datos',
     'Recuerda cerrar sesión en computadores públicos'
   ];
 
-  constructor(private router: Router) {}
+  constructor(private router: Router) {} // Inyección de Router para navegación
 
-  // Alterna entre login y registro
+  /**
+   * Alterna entre modo 'login' y 'register'
+   * @param m Opcional: fuerza un modo específico
+   */
   toggleMode(m?: 'login' | 'register') {
-    this.message.set(''); // limpiamos mensajes
+    this.message.set(''); // Limpiamos cualquier mensaje previo
 
-    // SWITCH para decidir el modo
+    // SWITCH para decidir el modo a establecer
     switch (m) {
       case 'login':
-        this.mode.set('login');
+        this.mode.set('login'); // Fuerza modo login
         break;
       case 'register':
-        this.mode.set('register');
+        this.mode.set('register'); // Fuerza modo registro
         break;
       default:
-        // si no hay parámetro, alternamos con IF
+        // Si no hay parámetro, alternamos el modo actual
         this.mode.set(this.mode() === 'login' ? 'register' : 'login');
         break;
     }
   }
 
-  // Función para registrar usuario
+  /**
+   * Función para registrar un nuevo usuario
+   */
   register() {
-    this.message.set('');
+    this.message.set(''); // Limpiamos mensajes
 
-    // IF: validamos campos vacíos
+    // Validación: campos vacíos
     if (!this.regUser() || !this.regPassword()) {
       this.message.set('Por favor completa usuario y contraseña.');
+      return;
+    }
+
+    // Obtenemos los usuarios existentes desde localStorage
+    const raw = localStorage.getItem('pe_users');
+    const users = raw ? JSON.parse(raw) : {};
+
+    // Validación: usuario ya existe
+    if (users[this.regUser()]) {
+      this.message.set('Ese usuario ya existe. Elige otro.');
+      return;
+    }
+
+    // Guardamos nuevo usuario en localStorage
+    users[this.regUser()] = this.regPassword();
+    localStorage.setItem('pe_users', JSON.stringify(users));
+
+    // Mensaje de éxito
+    this.message.set('Registro correcto. Ahora inicia sesión.');
+
+    // Limpiamos campos de registro y cambiamos a modo login
+    this.regUser.set('');
+    this.regPassword.set('');
+    this.mode.set('login');
+  }
+
+  /**
+   * Función para iniciar sesión
+   */
+  login() {
+    this.message.set(''); // Limpiamos mensajes
+
+    // Validación: campos vacíos
+    if (!this.username() || !this.password()) {
+      this.message.set('Ingresa usuario y contraseña.');
+      return;
+    }
+
+    // Acceso rápido para admin (solo ejemplo)
+    if (this.username().toLowerCase() === 'admin' && this.password() === '1234') {
+      this.router.navigate(['/home']); // Redirige a home
       return;
     }
 
@@ -68,54 +117,15 @@ export class Login {
     const raw = localStorage.getItem('pe_users');
     const users = raw ? JSON.parse(raw) : {};
 
-    // IF: validamos si el usuario ya existe
-    if (users[this.regUser()]) {
-      this.message.set('Ese usuario ya existe. Elige otro.');
-      return;
-    }
-
-    // Guardamos nuevo usuario
-    users[this.regUser()] = this.regPassword();
-    localStorage.setItem('pe_users', JSON.stringify(users));
-
-    // Mensaje de éxito
-    this.message.set('Registro correcto. Ahora inicia sesión.');
-
-    // Limpiamos campos y cambiamos modo
-    this.regUser.set('');
-    this.regPassword.set('');
-    this.mode.set('login');
-  }
-
-  // Función para iniciar sesión
-  login() {
-    this.message.set('');
-
-    // IF: validamos campos vacíos
-    if (!this.username() || !this.password()) {
-      this.message.set('Ingresa usuario y contraseña.');
-      return;
-    }
-
-    // Acceso rápido fijo para admin
-    if (this.username().toLowerCase() === 'admin' && this.password() === '1234') {
-      this.router.navigate(['/home']); // redirige a home
-      return;
-    }
-
-    // Obtenemos usuarios de localStorage
-    const raw = localStorage.getItem('pe_users');
-    const users = raw ? JSON.parse(raw) : {};
-
-    // FOR: recorremos las claves de usuarios para buscar coincidencia
+    // Recorremos los usuarios guardados para buscar coincidencia
     for (const user in users) {
       if (user === this.username() && users[user] === this.password()) {
-        this.router.navigate(['/home']); // login correcto
+        this.router.navigate(['/home']); // Login correcto
         return;
       }
     }
 
-    // Credenciales incorrectas
+    // Si no coincide ningún usuario, mostramos error
     this.message.set('Credenciales incorrectas.');
   }
 }

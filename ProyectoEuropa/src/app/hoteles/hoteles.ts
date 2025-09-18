@@ -1,15 +1,7 @@
 import { Component } from '@angular/core';
 import { Header } from '../shared/components/header/header';
 import { RouterModule } from '@angular/router';
-import { 
-  NgFor, 
-  NgIf, 
-  NgClass, 
-  NgStyle, 
-  NgSwitch, 
-  NgSwitchCase, 
-  NgSwitchDefault 
-} from '@angular/common';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-hoteles',
@@ -17,7 +9,7 @@ import {
   imports: [
     Header, 
     RouterModule,
-    NgFor, NgIf, NgClass, NgStyle, NgSwitch, NgSwitchCase, NgSwitchDefault
+    CommonModule // componente para que incluya *ngFor, *ngIf, ngStyle, ngClass, ngSwitch
   ],
   templateUrl: './hoteles.html',
   styleUrls: ['./hoteles.css']

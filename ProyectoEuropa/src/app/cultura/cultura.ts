@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Header } from '../shared/components/header/header';
-import { NgFor, NgIf, NgClass, NgStyle, NgSwitch, NgSwitchCase, NgSwitchDefault } from '@angular/common';
+import { CommonModule } from '@angular/common';
 
 interface Plato {
   nombre: string;
@@ -15,7 +15,7 @@ interface Plato {
   standalone: true,
   imports: [
     Header, 
-    NgFor, NgIf, NgClass, NgStyle, NgSwitch, NgSwitchCase, NgSwitchDefault
+    CommonModule // componente para que incluya *ngFor, *ngIf, ngStyle, ngClass, ngSwitch
   ],
   templateUrl: './cultura.html',
   styleUrls: ['./cultura.css']

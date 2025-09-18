@@ -7,51 +7,64 @@
   </div>
 
   <div class="cards">
-    <!-- *ngFor: Recorre la lista de platos y genera una tarjeta por cada uno -->
-    <div 
-      class="card"
-      *ngFor="let plato of listaPlatos"
-      [ngClass]="{ 
-        'plato-economico': plato.precio < 5000, 
-        'plato-premium': plato.precio > 7000 
-      }"
-      [ngStyle]="{ 
-        'border': plato.precio > 7000 ? '3px solid gold' : '1px solid #ccc' 
-      }"
-    >
-      <!-- *ngIf: Muestra esta etiqueta solo si el plato cuesta menos de 5000 -->
-      <div *ngIf="plato.precio < 5000" class="oferta-badge">
+
+    <!-- @for: Itera sobre cada plato en la listaPlatos -->
+    <!-- track plato.nombre: Angular usa el nombre del plato como identificador único -->
+    @for (plato of listaPlatos; track plato.nombre) {
+    <div class="card" [ngClass]="{ 
+          'plato-economico': plato.precio < 5000, 
+          'plato-premium': plato.precio > 7000 
+        }" [ngStyle]="{ 
+          'border': plato.precio > 7000 ? '3px solid gold' : '1px solid #ccc' 
+        }">
+
+      <!-- @if: Muestra la etiqueta solo si el precio del plato es menor a 5000 -->
+      @if (plato.precio < 5000) { <div class="oferta-badge">
         🔥 Plato destacado
-      </div>
+    </div>
+    }
 
-      <!-- [src] y [alt]: Enlazan dinámicamente la imagen y el nombre -->
-      <img [src]="plato.imagen" [alt]="plato.nombre">
+    <!-- Imagen dinámica del plato -->
+    <img [src]="plato.imagen" [alt]="plato.nombre">
 
-      <div>
-        <h3>{{ plato.ciudad }}</h3>
-        <p>{{ plato.descripcion }}</p>
+    <div>
+      <h3>{{ plato.ciudad }}</h3>
+      <p>{{ plato.descripcion }}</p>
 
-        <!-- [ngSwitch]: Evalúa la categoría del precio -->
-        <p [ngSwitch]="getCategoriaPrecio(plato.precio)">
-          <!-- *ngSwitchCase: Renderiza según el valor devuelto por getCategoriaPrecio -->
-          <span *ngSwitchCase="'bajo'" class="price">
-            Económico: &#36;{{ plato.precio }} USD
-          </span>
-          <span *ngSwitchCase="'medio'" class="price">
-            Estándar: &#36;{{ plato.precio }} USD
-          </span>
-          <span *ngSwitchCase="'alto'" class="price">
-            Premium: &#36;{{ plato.precio }} USD
-          </span>
+      <!-- @switch: Evalúa la categoría del precio del plato -->
+      @switch (getCategoriaPrecio(plato.precio)) {
 
-          <!-- *ngSwitchDefault: Caso por defecto si no coincide con ningún case -->
-          <span *ngSwitchDefault class="price">
-            Desde &#36;{{ plato.precio }} USD
-          </span>
-        </p>
-      </div>
+      <!-- @case: Precio bajo -->
+      @case('bajo') {
+      <span class="price">
+        Económico: &#36;{{ plato.precio }} USD
+      </span>
+      }
+
+      <!-- @case: Precio medio -->
+      @case('medio') {
+      <span class="price">
+        Estándar: &#36;{{ plato.precio }} USD
+      </span>
+      }
+
+      <!-- @case: Precio alto -->
+      @case('alto') {
+      <span class="price">
+        Premium: &#36;{{ plato.precio }} USD
+      </span>
+      }
+
+      <!-- @default: Caso por defecto -->
+      @default {
+      <span class="price">
+        Desde &#36;{{ plato.precio }} USD
+      </span>
+      }
+      }
     </div>
   </div>
+  }
+
+  </div>
 </section>
-
-

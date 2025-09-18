@@ -2,56 +2,57 @@
 
 <div class="activities-container">
   <h1 class="title">Ciudades Recomendadas</h1>
-  
+
   <div class="activities-grid">
 
-    <!-- *ngFor: Repite la tarjeta por cada elemento en listaCiudades -->
-    <div 
-      class="activity-card"
-      *ngFor="let ciudad of listaCiudades"
-      [ngClass]="{
-        'destino-economico': ciudad.precio <= 6000, 
-        'destino-premium': ciudad.precio > 6000
-      }"
-      [ngStyle]="{
-        'border': ciudad.precio > 7000 ? '3px solid gold' : '1px solid #ccc'
-      }"
-    >
+    @for (ciudad of listaCiudades; track ciudad.nombre) {
+    <div class="activity-card" [ngClass]="{
+          'destino-economico': ciudad.precio <= 6000, 
+          'destino-premium': ciudad.precio > 6000
+        }" [ngStyle]="{
+          'border': ciudad.precio > 7000 ? '3px solid gold' : '1px solid #ccc'
+        }">
 
-      <!-- *ngIf: muestra la insignia de oferta si el precio es menor a 5000 -->
-      <div *ngIf="ciudad.precio < 5000" class="oferta-badge">
+      @if (ciudad.precio < 5000) { <div class="oferta-badge">
         🔥 Oferta Especial
-      </div>
-
-      <!-- Imagen dinámica desde la propiedad 'imagen' de cada ciudad -->
-      <img [src]="ciudad.imagen" [alt]="ciudad.nombre" class="activity-image" />
-
-      <div class="activity-info">
-        <h2>{{ ciudad.descripcion }}</h2>
-        <p class="location">{{ ciudad.ubicacion }}</p>
-
-        <!-- *ngSwitch: muestra un texto diferente según la categoría de precio -->
-        <p [ngSwitch]="getCategoriaPrecio(ciudad.precio)">
-          <span *ngSwitchCase="'bajo'" class="price">
-            Económico: ${{ ciudad.precio }} USD
-          </span>
-          <span *ngSwitchCase="'medio'" class="price">
-            Estándar: ${{ ciudad.precio }} USD
-          </span>
-          <span *ngSwitchCase="'alto'" class="price">
-            Premium: ${{ ciudad.precio }} USD
-          </span>
-          <span *ngSwitchDefault class="price">
-            Desde ${{ ciudad.precio }} USD
-          </span>
-        </p>
-
-        <!-- Botón de reserva que redirige al componente de contacto -->
-        <a routerLink="/contacto">
-          <button class="book-btn" type="button">Reservar</button>
-        </a>
-      </div>
     </div>
+    }
 
+    <img [src]="ciudad.imagen" [alt]="ciudad.nombre" class="activity-image" />
+
+    <div class="activity-info">
+      <h2>{{ ciudad.descripcion }}</h2>
+      <p class="location">{{ ciudad.ubicacion }}</p>
+
+      @switch (getCategoriaPrecio(ciudad.precio)) {
+      @case ('bajo') {
+      <p class="price">
+        Económico: ${{ ciudad.precio }} USD
+      </p>
+      }
+      @case ('medio') {
+      <p class="price">
+        Estándar: ${{ ciudad.precio }} USD
+      </p>
+      }
+      @case ('alto') {
+      <p class="price">
+        Premium: ${{ ciudad.precio }} USD
+      </p>
+      }
+      @default {
+      <p class="price">
+        Desde ${{ ciudad.precio }} USD
+      </p>
+      }
+      }
+
+      <a routerLink="/contacto">
+        <button class="book-btn" type="button">Reservar</button>
+      </a>
+    </div>
   </div>
+  }
+
+</div>
 </div>

@@ -1,118 +1,62 @@
+<!-- Componente del header -->
 <app-header></app-header>
 
 <div class="hotels-container">
-    <h1 class="title">Hoteles de Europa</h1>
+  <!-- Título principal -->
+  <h1 class="title">Hoteles de Europa</h1>
 
-    <div class="hotels-grid">
+  <div class="hotels-grid">
+    <!-- *ngFor: recorre la lista de hoteles -->
+    <div 
+      class="hotel-card"
+      *ngFor="let hotel of listaHoteles"
+      [ngClass]="{
+        'hotel-economico': hotel.price < 1000,
+        'hotel-premium': hotel.price > 2000
+      }"
+      [ngStyle]="{
+        'border': hotel.price > 2000 ? '3px solid gold' : '1px solid #ccc'
+      }"
+    >
 
-        <div class="hotel-card">
-            <img [src]="hotel1.image" class="hotel-image" />
-            <div class="hotel-info">
-                <h2>{{ hotel1.name }}</h2>
-                <p class="location">{{ hotel1.location }}</p>
-                <p class="price">Desde {{ hotel1.price }} / noche</p>
-                <a routerLink="/contacto">
-                    <button class="book-btn">Reservar</button>
-                </a>
-            </div>
-        </div>
+      <!-- ngIf: muestra etiqueta solo si el hotel es caro -->
+      <div *ngIf="hotel.price > 2500" class="exclusive-badge">
+        ⭐ Hotel Exclusivo
+      </div>
 
-        <div class="hotel-card">
-            <img [src]="hotel2.image" class="hotel-image" />
-            <div class="hotel-info">
-                <h2>{{ hotel2.name }}</h2>
-                <p class="location">{{ hotel2.location }}</p>
-                <p class="price">Desde {{ hotel2.price }} / noche</p>
-                <a routerLink="/contacto">
-                    <button class="book-btn">Reservar</button>
-                </a>
-            </div>
-        </div>
+      <!-- Imagen del hotel -->
+      <img [src]="hotel.image" [alt]="hotel.name" class="hotel-image" />
 
-        <div class="hotel-card">
-            <img [src]="hotel3.image" class="hotel-image" />
-            <div class="hotel-info">
-                <h2>{{ hotel3.name }}</h2>
-                <p class="location">{{ hotel3.location }}</p>
-                <p class="price">Desde {{ hotel3.price }} / noche</p>
-                <a routerLink="/contacto">
-                    <button class="book-btn">Reservar</button>
-                </a>
-            </div>
-        </div>
+      <div class="hotel-info">
+        <!-- Nombre del hotel -->
+        <h2>{{ hotel.name }}</h2>
 
-        <div class="hotel-card">
-            <img [src]="hotel4.image" class="hotel-image" />
-            <div class="hotel-info">
-                <h2>{{ hotel4.name }}</h2>
-                <p class="location">{{ hotel4.location }}</p>
-                <p class="price">Desde {{ hotel4.price }} / noche</p>
-                <a routerLink="/contacto">
-                    <button class="book-btn">Reservar</button>
-                </a>
-            </div>
-        </div>
+        <!-- Ubicación -->
+        <p class="location">{{ hotel.location }}</p>
 
-        <div class="hotel-card">
-            <img [src]="hotel5.image" class="hotel-image" />
-            <div class="hotel-info">
-                <h2>{{ hotel5.name }}</h2>
-                <p class="location">{{ hotel5.location }}</p>
-                <p class="price">Desde {{ hotel5.price }} / noche</p>
-                <a routerLink="/contacto">
-                    <button class="book-btn">Reservar</button>
-                </a>
-            </div>
-        </div>
+        <!-- ngSwitch: categoría de precio -->
+        <p [ngSwitch]="getCategoriaPrecio(hotel.price)">
+          <span *ngSwitchCase="'bajo'" class="price">
+            Económico: {{ hotel.price }} {{ hotel.currency }}
+          </span>
 
-        <div class="hotel-card">
-            <img [src]="hotel6.image" class="hotel-image" />
-            <div class="hotel-info">
-                <h2>{{ hotel6.name }}</h2>
-                <p class="location">{{ hotel6.location }}</p>
-                <p class="price">Desde {{ hotel6.price }} / noche</p>
-                <a routerLink="/contacto">
-                    <button class="book-btn">Reservar</button>
-                </a>
-            </div>
-        </div>
+          <span *ngSwitchCase="'medio'" class="price">
+            Estándar: {{ hotel.price }} {{ hotel.currency }}
+          </span>
 
-        <div class="hotel-card">
-            <img [src]="hotel7.image" class="hotel-image" />
-            <div class="hotel-info">
-                <h2>{{ hotel7.name }}</h2>
-                <p class="location">{{ hotel7.location }}</p>
-                <p class="price">Desde {{ hotel7.price }} / noche</p>
-                <a routerLink="/contacto">
-                    <button class="book-btn">Reservar</button>
-                </a>
-            </div>
-        </div>
+          <span *ngSwitchCase="'alto'" class="price">
+            Premium: {{ hotel.price }} {{ hotel.currency }}
+          </span>
 
-        <div class="hotel-card">
-            <img [src]="hotel8.image" class="hotel-image" />
-            <div class="hotel-info">
-                <h2>{{ hotel8.name }}</h2>
-                <p class="location">{{ hotel8.location }}</p>
-                <p class="price">Desde {{ hotel8.price }} / noche</p>
-                <a routerLink="/contacto">
-                    <button class="book-btn">Reservar</button>
-                </a>
-            </div>
-        </div>
+          <span *ngSwitchDefault class="price">
+            Desde {{ hotel.price }} {{ hotel.currency }}
+          </span>
+        </p>
 
-
-        <div class="hotel-card">
-            <img [src]="hotel9.image" class="hotel-image" />
-            <div class="hotel-info">
-                <h2>{{ hotel9.name }}</h2>
-                <p class="location">{{ hotel9.location }}</p>
-                <p class="price">Desde {{ hotel9.price }} / noche</p>
-                <a routerLink="/contacto">
-                    <button class="book-btn">Reservar</button>
-                </a>
-            </div>
-        </div>
-
+        <a routerLink="/contacto">
+          <button class="book-btn">Reservar</button>
+        </a>
+      </div>
     </div>
+  </div>
 </div>
